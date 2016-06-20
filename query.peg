@@ -1,0 +1,50 @@
+grammar Query
+    query       <- __* (unit __+)* unit __*
+    unit        <- operator or operator
+                 / operator
+    operator    <- exact
+                 / filter
+                 / reply
+                 / since
+                 / until
+                 / list
+                 / min_rts
+                 / min_faves
+                 / min_replies
+                 / lang
+                 / question
+                 / negation
+                 / hashtag
+                 / mention
+                 / word
+
+    # Operators
+    exact       <- '"' [^\"]* '"'
+    hashtag     <- "#" tag
+    filter      <- "filter" sep word
+    reply       <- "to" sep "@"? screen_name
+    since       <- "since" sep date
+    until       <- "until" sep date
+    mention     <- "@" screen_name
+    list        <- "list" sep list_name
+    min_rts     <- min "retweets" sep integer
+    min_faves   <- min "faves" sep integer
+    min_replies <- min "replies" sep integer
+    lang        <- "lang" sep word
+    exclude     <- "exclude" sep word
+    negation    <- "-" word
+    question    <- "?"
+    word        <- [\S]+
+
+    or          <- __+ "OR" __+
+    list_name   <- screen_name "/" list_slug
+    list_slug   <- [a-z-]+
+    screen_name <- [a-zA-z0-9_]+
+    date        <- d d d d "-" d d "-" d d
+    # this is clearly wrong — needs to account for unicode
+    tag         <- [a-zA-z0-9_]+
+    min         <- "min_"
+    sep         <- ":"
+    integer     <- d d*
+    d           <- [0-9]
+    __          <- [\s]
