@@ -44,16 +44,16 @@ grammar Query
     # Query Syntax Rules
 
     exact       <- '"' [^\"]* '"'
-    filter      <- k:"filter" sep v:word
-    reply       <- k:"to" sep "@"? v:screen_name
-    since       <- k:"since" sep v:date
-    until       <- k:"until" sep v:date
-    list        <- k:"list" sep v:list_name
-    min_rts     <- k:(min "retweets") sep v:integer
-    min_faves   <- k:(min "faves") sep v:integer
-    min_replies <- k:(min "replies") sep v:integer
-    lang        <- k:"lang" sep v:word
-    exclude     <- k:"exclude" sep v:word
+    filter      <- k:"filter"           sep v:word
+    reply       <- k:"to" sep "@"?          v:screen_name
+    since       <- k:"since"            sep v:date
+    until       <- k:"until"            sep v:date
+    list        <- k:"list"             sep v:list_name
+    min_rts     <- k:(min "retweets")   sep v:integer
+    min_faves   <- k:(min "faves")      sep v:integer
+    min_replies <- k:(min "replies")    sep v:integer
+    lang        <- k:"lang"             sep v:word
+    exclude     <- k:"exclude"          sep v:word
     question    <- "?"
     negation    <- "-" word
     hashtag     <- "#" tag
