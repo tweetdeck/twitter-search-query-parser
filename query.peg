@@ -9,8 +9,9 @@ grammar Query
     # Operators can be grouped with an OR operator in pairs.
     # I'm not sure if this is the ideal way to do this with PEG
     # but it works for now.
-    operator    <- left:orable or right:orable
-                 / op
+    operator    <- or / op
+
+    or          <- left:orable or right:orable
 
     # Only some oprators work in an OR
     orable      <- exact
