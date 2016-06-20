@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "gen": "canopy query.peg --lang js",
+    "try": "node try.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,3 +1,9 @@
+# twitter-search-parser
+
+**WIP** parser for Twitter search queries.
+
 ```
-canopy query.peg --lang js && node try.js "list:NASA/boop-er -fish since:2016-01-05 :( min_replies:10 min_retweets:10 OR min_faves:10"
+$ npm install
+$ npm run gen
+$ npm run try "some -search from:twitter @jack #tagged OR \"exactly this\""
 ```

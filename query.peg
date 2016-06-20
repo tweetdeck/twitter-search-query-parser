@@ -1,7 +1,14 @@
 grammar Query
-    query       <- __* (unit __+)* unit __*
-    unit        <- operator or operator
+
+    query       <- __* (op __+)* op __*
+
+    # Operators can be grouped with an OR operator in pairs.
+    # I'm not sure if this is the ideal way to do this with PEG
+    # but it works for now.
+    op          <- operator or operator
                  / operator
+
+    # Order is important here!
     operator    <- exact
                  / filter
                  / reply
@@ -36,12 +43,14 @@ grammar Query
     question    <- "?"
     word        <- [\S]+
 
-    or          <- __+ "OR" __+
+    # Utility rules
+    or          <- __+ `or` __+
     list_name   <- screen_name "/" list_slug
     list_slug   <- [a-z-]+
     screen_name <- [a-zA-z0-9_]+
+    # There's probably a better way to do this
     date        <- d d d d "-" d d "-" d d
-    # this is clearly wrong — needs to account for unicode
+    # This is clearly wrong — needs to account for unicode
     tag         <- [a-zA-z0-9_]+
     min         <- "min_"
     sep         <- ":"
