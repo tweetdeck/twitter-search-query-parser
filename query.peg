@@ -1,50 +1,68 @@
 grammar Query
 
-    query       <- __* (op __+)* op __*
+    # Query Shape Rules
+
+    # One or more operators makes up a query
+    query       <- __* (operator __+)* operator __*
 
     # Operators can be grouped with an OR operator in pairs.
     # I'm not sure if this is the ideal way to do this with PEG
     # but it works for now.
-    op          <- operator or operator
-                 / operator
+    operator    <- left:orable or right:orable
+                 / op
 
-    # Order is important here!
-    operator    <- exact
+    # Only some oprators work in an OR
+    orable      <- exact
+                 / filter
+                 / reply
+                 / engagement
+                 / lang
+                 / simple
+
+    # If it's not an OR you can use any operator
+    op          <- exact
                  / filter
                  / reply
                  / since
                  / until
                  / list
-                 / min_rts
-                 / min_faves
-                 / min_replies
+                 / engagement
                  / lang
+                 / exclude
                  / question
                  / negation
-                 / hashtag
+                 / simple
+
+    simple      <- hashtag
                  / mention
                  / word
 
-    # Operators
+    engagement  <- min_rts
+                 / min_faves
+                 / min_replies
+
+    # Query Syntax Rules
+
     exact       <- '"' [^\"]* '"'
-    hashtag     <- "#" tag
-    filter      <- "filter" sep word
-    reply       <- "to" sep "@"? screen_name
-    since       <- "since" sep date
-    until       <- "until" sep date
-    mention     <- "@" screen_name
-    list        <- "list" sep list_name
-    min_rts     <- min "retweets" sep integer
-    min_faves   <- min "faves" sep integer
-    min_replies <- min "replies" sep integer
-    lang        <- "lang" sep word
-    exclude     <- "exclude" sep word
-    negation    <- "-" word
+    filter      <- k:"filter" sep v:word
+    reply       <- k:"to" sep "@"? v:screen_name
+    since       <- k:"since" sep v:date
+    until       <- k:"until" sep v:date
+    list        <- k:"list" sep v:list_name
+    min_rts     <- k:(min "retweets") sep v:integer
+    min_faves   <- k:(min "faves") sep v:integer
+    min_replies <- k:(min "replies") sep v:integer
+    lang        <- k:"lang" sep v:word
+    exclude     <- k:"exclude" sep v:word
     question    <- "?"
+    negation    <- "-" word
+    hashtag     <- "#" tag
+    mention     <- "@" screen_name
     word        <- [\S]+
 
-    # Utility rules
-    or          <- __+ `or` __+
+    # Utility Rules
+
+    or          <- __+ "OR" __+
     list_name   <- screen_name "/" list_slug
     list_slug   <- [a-z-]+
     screen_name <- [a-zA-z0-9_]+
