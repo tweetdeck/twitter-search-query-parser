@@ -4,14 +4,14 @@ grammar Query
     # Query Shape Rules
 
     # One or more operators makes up a query
-    query       <- __* (operator __+)* operator __*
+    root        <- __* value:query __*    <Container>
+    query       <- (operator __*)+        <Query>
+    operator    <- op
 
     # Operators can be grouped with an OR operator in pairs.
     # I'm not sure if this is the ideal way to do this with PEG
     # but it works for now.
-    operator    <- or / op
-
-    or          <- left:orable or right:orable
+    or          <- orable or orable <Or>
 
     # Only some oprators work in an OR
     orable      <- exact
@@ -45,22 +45,22 @@ grammar Query
 
     # Query Syntax Rules
 
-    exact       <- '"' [^\"]* '"'
-    filter      <- k:"filter"           sep v:word
-    reply       <- k:"to" sep "@"?          v:screen_name
-    since       <- k:"since"            sep v:date
-    until       <- k:"until"            sep v:date
-    list        <- k:"list"             sep v:list_name
-    min_rts     <- k:(min "retweets")   sep v:integer
-    min_faves   <- k:(min "faves")      sep v:integer
-    min_replies <- k:(min "replies")    sep v:integer
-    lang        <- k:"lang"             sep v:word
-    exclude     <- k:"exclude"          sep v:word
-    question    <- "?"
-    negation    <- "-" word
-    hashtag     <- "#" tag
-    mention     <- "@" screen_name
-    word        <- [\S]+
+    exact       <- '"' [^\"]* '"'                               <Including>
+    filter      <- k:"filter"           sep v:word              <KV>
+    reply       <- k:"to" sep "@"?          v:screen_name       <KV>
+    since       <- k:"since"            sep v:date              <KV>
+    until       <- k:"until"            sep v:date              <KV>
+    list        <- k:"list"             sep v:list_name         <KV>
+    min_rts     <- k:(min "retweets")   sep v:integer           <KV>
+    min_faves   <- k:(min "faves")      sep v:integer           <KV>
+    min_replies <- k:(min "replies")    sep v:integer           <KV>
+    lang        <- k:"lang"             sep v:word              <KV>
+    exclude     <- k:"exclude"          sep v:word              <KV>
+    question    <- "?"                                          <IsQuestion>
+    negation    <- "-" word                                     <Excluding>
+    hashtag     <- "#" tag                                      <Including>
+    mention     <- "@" screen_name                              <Including>
+    word        <- [\S]+                                        <Including>
 
     # Utility Rules
 
