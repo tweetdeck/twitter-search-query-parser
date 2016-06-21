@@ -9,7 +9,7 @@
     "lint:fix": "npm run lint -- --fix",
     "specs": "ava",
     "try": "babel-node try.js",
-    "test": "npm run lint && npm run specs"
+    "test": "npm run gen && npm run lint && npm run specs"
   },
   "keywords": [],
   "author": "",

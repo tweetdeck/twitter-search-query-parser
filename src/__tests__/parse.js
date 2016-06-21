@@ -5,18 +5,18 @@ const testCases = [
   [
     'single word query',
     'simple',
-    [['INCLUDING', 'simple']]
+    [['Including', 'simple']]
   ],
   [
     'triple OR',
-    'a OR b OR x',
+    'a OR b OR c',
     [
       [
-        'OR',
+        'Or',
         [
-          ['INCLUDING', 'a'],
-          ['INCLUDING', 'b'],
-          ['INCLUDING', 'c']
+          ['Including', 'a'],
+          ['Including', 'b'],
+          ['Including', 'c']
         ]
       ]
     ]
@@ -24,30 +24,31 @@ const testCases = [
   [
     'extreme example',
     `search #search @search -query filter:vine exclude:retweets exclude:nativeretweets
-     min_replies:10 OR min_rts:100 min_faves:20 lang:es OR to:jack
+     min_replies:10 OR min_retweets:100 min_faves:20 lang:es OR to:jack ?
      since:2016-01-01 until:2016-02-01 list:NASA/astronauts-in-space-now filter:verified
      cats OR dogs OR beavers`,
     [
-      ['INCLUDING', 'search'],
-      ['INCLUDING', '#search'],
-      ['INCLUDING', '@search'],
-      ['EXCLUDING', 'query'],
-      ['FILTER', 'vine'],
-      ['EXCLUDE', 'retweets'],
-      ['EXCLUDE', 'nativeretweets'],
-      ['OR', [['MIN_REPLIES', '10'], ['INCLUDING', 'min_rts:100']]],
-      ['MIN_FAVES', '20'],
-      ['OR', [['LANG', 'es'], ['TO', 'jack']]],
-      ['SINCE', '2016-01-01'],
-      ['UNTIL', '2016-02-01'],
-      ['LIST', 'NASA', 'astronauts-in-space-now'],
-      ['FILTER', 'verified'],
+      ['Including', 'search'],
+      ['Including', '#search'],
+      ['Including', '@search'],
+      ['Excluding', 'query'],
+      ['Pair', 'filter', 'vine'],
+      ['Pair', 'exclude', 'retweets'],
+      ['Pair', 'exclude', 'nativeretweets'],
+      ['Or', [['Pair', 'min_replies', '10'], ['Pair', 'min_retweets', '100']]],
+      ['Pair', 'min_faves', '20'],
+      ['Or', [['Pair', 'lang', 'es'], ['Pair', 'to', 'jack']]],
+      ['IsQuestion', true],
+      ['Pair', 'since', '2016-01-01'],
+      ['Pair', 'until', '2016-02-01'],
+      ['List', 'NASA', 'astronauts-in-space-now'],
+      ['Pair', 'filter', 'verified'],
       [
-        'OR',
+        'Or',
         [
-          ['INCLUDING', 'cats'],
-          ['INCLUDING', 'dogs'],
-          ['INCLUDING', 'beavers']
+          ['Including', 'cats'],
+          ['Including', 'dogs'],
+          ['Including', 'beavers']
         ]
       ]
     ]

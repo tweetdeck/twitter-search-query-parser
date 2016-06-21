@@ -10,10 +10,11 @@ const types = {
       return this.elements.map(elem => types.Value.reduce.call(elem));
     }
   },
-  KV: {
+  Pair: {
     reduce() {
       return [
-        this.k.text.toUpperCase(),
+        'Pair',
+        this.k.text.toLowerCase(),
         this.v.text
       ];
     }
@@ -23,7 +24,7 @@ const types = {
   Or: {
     reduce() {
       return [
-        'OR',
+        'Or',
         [this.orable.reduce()].concat(
           this.or_groups.reduce()
         )
@@ -33,7 +34,7 @@ const types = {
   Including: {
     reduce() {
       return [
-        'INCLUDING',
+        'Including',
         this.text
       ];
     }
@@ -41,7 +42,7 @@ const types = {
   Excluding: {
     reduce() {
       return [
-        'EXCLUDING',
+        'Excluding',
         this.word.text
       ];
     }
@@ -49,7 +50,7 @@ const types = {
   List: {
     reduce() {
       return [
-        'LIST',
+        'List',
         this.list_name.screen_name.text,
         this.list_name.list_slug.text
       ];
@@ -58,7 +59,7 @@ const types = {
   IsQuestion: {
     reduce() {
       return [
-        'QUESTION',
+        'IsQuestion',
         true
       ];
     }

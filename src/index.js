@@ -21,3 +21,7 @@ export function parse(query) {
   }
   return reduce(stringToTree(query));
 }
+
+export function stringify(query) {
+  return '';
+}
