@@ -1,17 +1,17 @@
 const types = {
   // General Purpose
   Value: {
-    reduce: function () {
+    reduce() {
       return this.value.reduce();
     }
   },
   Values: {
-    reduce: function () {
+    reduce() {
       return this.elements.map(elem => types.Value.reduce.call(elem));
     }
   },
   KV: {
-    reduce: function () {
+    reduce() {
       return [
         this.k.text.toUpperCase(),
         this.v.text
@@ -21,7 +21,7 @@ const types = {
 
   // Operators
   Or: {
-    reduce: function () {
+    reduce() {
       return [
         'OR',
         [this.orable.reduce()].concat(
@@ -31,7 +31,7 @@ const types = {
     }
   },
   Including: {
-    reduce: function () {
+    reduce() {
       return [
         'INCLUDING',
         this.text
@@ -39,7 +39,7 @@ const types = {
     }
   },
   Excluding: {
-    reduce: function () {
+    reduce() {
       return [
         'EXCLUDING',
         this.word.text
@@ -47,7 +47,7 @@ const types = {
     }
   },
   List: {
-    reduce: function () {
+    reduce() {
       return [
         'LIST',
         this.list_name.screen_name.text,
@@ -56,7 +56,7 @@ const types = {
     }
   },
   IsQuestion: {
-    reduce: function () {
+    reduce() {
       return [
         'QUESTION',
         true

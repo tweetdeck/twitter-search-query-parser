@@ -1,4 +1,4 @@
-import { stringToTree, parse } from "./src";
+import {parse} from './src';
 
 console.log(
   process.argv[2]
@@ -6,6 +6,6 @@ console.log(
 console.log(
   require('util').inspect(
     parse(process.argv[2]),
-    { depth: null, colors: true }
+    {depth: null, colors: true}
   )
 );
