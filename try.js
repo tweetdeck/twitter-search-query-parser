@@ -1,21 +1,11 @@
-import { parse, reduce } from "./src";
-
-const tree = parse(process.argv[2]);
-console.log(
-  require('util').inspect(
-    tree,
-    { depth: null, colors: true }
-  )
-);
-
-console.log();
+import { stringToTree, parse } from "./src";
 
 console.log(
   process.argv[2]
 );
 console.log(
   require('util').inspect(
-    reduce(tree),
+    parse(process.argv[2]),
     { depth: null, colors: true }
   )
 );
