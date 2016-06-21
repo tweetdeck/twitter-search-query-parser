@@ -1,4 +1,4 @@
-# twitter-search-parser
+# twitter-search-query-parser
 
 **WIP** parser for Twitter search queries.
 
