@@ -1,5 +1,5 @@
 import test from 'ava';
-import {parse} from '..';
+import {parse, stringify} from '..';
 
 const testCases = [
   [
@@ -55,10 +55,23 @@ const testCases = [
   ]
 ];
 
-testCases.forEach(([name, query, expected]) => {
+testCases.forEach(([name, rawQuery, expected]) => {
+  const query = rawQuery.split('\n').map(v => v.trim()).join(' ');
   test(name, t => {
     t.deepEqual(
       parse(query),
+      expected
+    );
+    t.deepEqual(
+      stringify(expected),
+      query
+    );
+    t.deepEqual(
+      stringify(parse(query)),
+      query
+    );
+    t.deepEqual(
+      parse(stringify(expected)),
       expected
     );
   });

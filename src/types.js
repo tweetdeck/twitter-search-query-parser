@@ -3,11 +3,22 @@ const types = {
   Value: {
     reduce() {
       return this.value.reduce();
+    },
+    stringify(value) {
+      const [type] = value;
+      return types[type].stringify(value);
     }
   },
   Values: {
     reduce() {
       return this.elements.map(elem => types.Value.reduce.call(elem));
+    },
+    stringify(values) {
+      return values.reduce(
+        (str, value) =>
+          `${str} ${types.Value.stringify(value)}`,
+        ''
+      );
     }
   },
   Pair: {
@@ -17,6 +28,9 @@ const types = {
         this.k.text.toLowerCase(),
         this.v.text
       ];
+    },
+    stringify([, k, v]) {
+      return `${k}:${v}`;
     }
   },
 
@@ -29,6 +43,11 @@ const types = {
           this.or_groups.reduce()
         )
       ];
+    },
+    stringify([, orables]) {
+      return orables.map(
+        orable => types.Value.stringify(orable)
+      ).join(' OR ');
     }
   },
   Including: {
@@ -37,6 +56,9 @@ const types = {
         'Including',
         this.text
       ];
+    },
+    stringify([, v]) {
+      return v;
     }
   },
   Excluding: {
@@ -45,6 +67,9 @@ const types = {
         'Excluding',
         this.word.text
       ];
+    },
+    stringify([, v]) {
+      return `-${v}`;
     }
   },
   List: {
@@ -54,6 +79,9 @@ const types = {
         this.list_name.screen_name.text,
         this.list_name.list_slug.text
       ];
+    },
+    stringify([, screenName, slug]) {
+      return `list:${screenName}/${slug}`;
     }
   },
   IsQuestion: {
@@ -62,6 +90,9 @@ const types = {
         'IsQuestion',
         true
       ];
+    },
+    stringify() {
+      return '?';
     }
   }
 };
