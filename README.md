@@ -2,31 +2,29 @@
 
 **WIP** parser for Twitter search queries.
 
+## Use
+
+`parse` turns a search query into a data structure:
+
+```js
+let query = parse('@jack from:twitter');
+// => [['Including', '@jack'], ['Pair', 'from', 'twitter']]
+```
+
+`stringify` turns a data structure back into a query:
+
+```js
+let query = stringify(
+  [['Including', '@jack'], ['Pair', 'from', 'twitter']]
+);
+// => '@jack from:twitter'
+```
+
+## Development
+
 ```
 $ npm install
 $ npm run gen
 $ npm run try "some -search from:twitter @jack #tagged OR \"exactly this\""
 ```
 
-```
-search #search @search -query filter:vine exclude:retweets exclude:nativeretweets min_replies:10 OR min_rts:100 min_faves:20 lang:es OR to:jack since:2016-01-01 until:2016-02-01 list:NASA/astronauts-in-space-now filter:verified cats OR dogs OR beavers
-[ [ 'INCLUDING', 'search' ],
-  [ 'INCLUDING', '#search' ],
-  [ 'INCLUDING', '@search' ],
-  [ 'EXCLUDING', 'query' ],
-  [ 'FILTER', 'vine' ],
-  [ 'EXCLUDE', 'retweets' ],
-  [ 'EXCLUDE', 'nativeretweets' ],
-  [ 'OR',
-    [ [ 'MIN_REPLIES', '10' ], [ 'INCLUDING', 'min_rts:100' ] ] ],
-  [ 'MIN_FAVES', '20' ],
-  [ 'OR', [ [ 'LANG', 'es' ], [ 'TO', 'jack' ] ] ],
-  [ 'SINCE', '2016-01-01' ],
-  [ 'UNTIL', '2016-02-01' ],
-  [ 'LIST', 'NASA', 'astronauts-in-space-now' ],
-  [ 'FILTER', 'verified' ],
-  [ 'OR',
-    [ [ 'INCLUDING', 'cats' ],
-      [ 'INCLUDING', 'dogs' ],
-      [ 'INCLUDING', 'beavers' ] ] ] ]
-```
