@@ -1,31 +1,29 @@
 const types = {
-  Container: {
+  Value: {
     reduce: function () {
       return this.value.reduce();
     }
   },
-  Query: {
+  Values: {
     reduce: function () {
-      return [
-        'Query',
-        this.elements.map(elem => elem.operator.reduce())
-      ];
+      return this.elements.map(elem => types.Value.reduce.call(elem));
     }
   },
+
   Or: {
     reduce: function () {
-      console.log('OR', this);
       return [
-        'Or',
-        this.left.reduce(),
-        this.right.reduce()
+        'OR',
+        [this.orable.reduce()].concat(
+          this.or_groups.reduce()
+        )
       ];
     }
   },
   Including: {
     reduce: function () {
       return [
-        'Including',
+        'INCLUDING',
         this.text
       ];
     }
@@ -33,7 +31,7 @@ const types = {
   Excluding: {
     reduce: function () {
       return [
-        'Excluding',
+        'EXCLUDING',
         this.word.text
       ];
     }
@@ -41,16 +39,24 @@ const types = {
   KV: {
     reduce: function () {
       return [
-        'KV',
-        this.k.text,
+        this.k.text.toUpperCase(),
         this.v.text
+      ];
+    }
+  },
+  List: {
+    reduce: function () {
+      return [
+        'LIST',
+        this.list_name.screen_name.text,
+        this.list_name.list_slug.text
       ];
     }
   },
   IsQuestion: {
     reduce: function () {
       return [
-        'IsQuestion',
+        'QUESTION',
         true
       ];
     }
@@ -67,6 +73,9 @@ console.log(
 
 console.log();
 
+console.log(
+  process.argv[2]
+);
 console.log(
   require('util').inspect(
     tree.reduce(),

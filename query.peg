@@ -4,14 +4,15 @@ grammar Query
     # Query Shape Rules
 
     # One or more operators makes up a query
-    root        <- __* value:query __*    <Container>
-    query       <- (operator __*)+        <Query>
-    operator    <- op
+    root        <- __* value:query __*          <Value>
+    query       <- (value:operator __*)+        <Values>
+    operator    <- or / op
 
     # Operators can be grouped with an OR operator in pairs.
     # I'm not sure if this is the ideal way to do this with PEG
     # but it works for now.
-    or          <- orable or orable <Or>
+    or          <- orable or_groups             <Or>
+    or_groups   <- (or_sep value:orable)+       <Values>
 
     # Only some oprators work in an OR
     orable      <- exact
@@ -50,7 +51,7 @@ grammar Query
     reply       <- k:"to" sep "@"?          v:screen_name       <KV>
     since       <- k:"since"            sep v:date              <KV>
     until       <- k:"until"            sep v:date              <KV>
-    list        <- k:"list"             sep v:list_name         <KV>
+    list        <- "list"               sep list_name           <List>
     min_rts     <- k:(min "retweets")   sep v:integer           <KV>
     min_faves   <- k:(min "faves")      sep v:integer           <KV>
     min_replies <- k:(min "replies")    sep v:integer           <KV>
@@ -64,7 +65,7 @@ grammar Query
 
     # Utility Rules
 
-    or          <- __+ "OR" __+
+    or_sep      <- __+ "OR" __+
     list_name   <- screen_name "/" list_slug
     list_slug   <- [a-z-]+
     screen_name <- [a-zA-z0-9_]+
