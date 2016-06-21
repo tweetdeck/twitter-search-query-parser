@@ -1,4 +1,5 @@
 const types = {
+  // General Purpose
   Value: {
     reduce: function () {
       return this.value.reduce();
@@ -9,6 +10,16 @@ const types = {
       return this.elements.map(elem => types.Value.reduce.call(elem));
     }
   },
+  KV: {
+    reduce: function () {
+      return [
+        this.k.text.toUpperCase(),
+        this.v.text
+      ];
+    }
+  },
+
+  // Operators
   Or: {
     reduce: function () {
       return [
@@ -35,14 +46,6 @@ const types = {
       ];
     }
   },
-  KV: {
-    reduce: function () {
-      return [
-        this.k.text.toUpperCase(),
-        this.v.text
-      ];
-    }
-  },
   List: {
     reduce: function () {
       return [
@@ -62,10 +65,4 @@ const types = {
   }
 };
 
-export function parse(query) {
-  return require('./query').parse(query, { types });
-}
-export function reduce(tree) {
-  return tree.reduce();
-}
-
+export default types;

@@ -1,4 +1,4 @@
-import { parse, reduce } from ".";
+import { parse, reduce } from "./src";
 
 const tree = parse(process.argv[2]);
 console.log(
