@@ -1,9 +1,14 @@
 {
-  "name": "twitter-search-query",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "twitter-search-query-parser",
+  "description": "A parser for Twitter search queries",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "grammar"
+  ],
   "scripts": {
+    "clean": "rm -rf dist/",
+    "dist": "npm test && npm run clean && babel src/ -d dist/ && npm run gen",
     "gen": "canopy grammar/query.peg --lang js",
     "lint": "xo",
     "lint:fix": "npm run lint -- --fix",
@@ -12,7 +17,7 @@
     "test": "npm run gen && npm run lint && npm run specs"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tom Ashworth <ta@twitter.com>",
   "license": "ISC",
   "devDependencies": {
     "ava": "^0.15.2",
