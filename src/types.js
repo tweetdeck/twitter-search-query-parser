@@ -50,6 +50,17 @@ const types = {
       ).join(' OR ');
     }
   },
+  Exactly: {
+    reduce() {
+      return [
+        'Exactly',
+        this.value.text
+      ];
+    },
+    stringify([, value]) {
+      return `"${value}"`;
+    }
+  },
   Including: {
     reduce() {
       return [

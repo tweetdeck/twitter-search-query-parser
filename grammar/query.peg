@@ -46,7 +46,7 @@ grammar Query
 
     # Query Syntax Rules
 
-    exact       <- '"' [^\"]* '"'                               <Including>
+    exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     filter      <- k:"filter"           sep v:word              <Pair>
     reply       <- k:"to" sep "@"?          v:screen_name       <Pair>
     since       <- k:"since"            sep v:date              <Pair>
