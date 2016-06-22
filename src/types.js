@@ -1,5 +1,16 @@
 const types = {
   // General Purpose
+  Text: {
+    reduce() {
+      return [
+        'Text',
+        this.text
+      ];
+    },
+    stringify([, v]) {
+      return v;
+    }
+  },
   Value: {
     reduce() {
       return this.value.reduce();
@@ -65,22 +76,22 @@ const types = {
     reduce() {
       return [
         'Including',
-        this.text
+        this.value.reduce()
       ];
     },
     stringify([, v]) {
-      return v;
+      return types.Value.stringify(v);
     }
   },
   Excluding: {
     reduce() {
       return [
         'Excluding',
-        this.word.text
+        this.value.reduce()
       ];
     },
     stringify([, v]) {
-      return `-${v}`;
+      return `-${types.Value.stringify(v)}`;
     }
   },
   List: {

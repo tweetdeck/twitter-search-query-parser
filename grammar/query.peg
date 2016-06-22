@@ -15,16 +15,14 @@ grammar Query
     or_groups   <- (or_sep value:orable)+       <Values>
 
     # Only some oprators work in an OR
-    orable      <- exact
-                 / filter
+    orable      <- filter
                  / reply
                  / engagement
                  / lang
-                 / simple
+                 / including
 
     # If it's not an OR you can use any operator
-    op          <- exact
-                 / filter
+    op          <- filter
                  / reply
                  / since
                  / until
@@ -33,20 +31,20 @@ grammar Query
                  / lang
                  / exclude
                  / question
-                 / negation
-                 / simple
-
-    simple      <- hashtag
-                 / mention
-                 / word
+                 / excluding
+                 / including
 
     engagement  <- min_rts
                  / min_faves
                  / min_replies
 
+    excluding   <- "-" value:base                               <Excluding>
+    including   <- "" value:base                                <Including>
+
+    base        <- exact / hashtag / mention / word
+
     # Query Syntax Rules
 
-    exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     filter      <- k:"filter"           sep v:word              <Pair>
     reply       <- k:"to" sep "@"?          v:screen_name       <Pair>
     since       <- k:"since"            sep v:date              <Pair>
@@ -58,10 +56,10 @@ grammar Query
     lang        <- k:"lang"             sep v:word              <Pair>
     exclude     <- k:"exclude"          sep v:word              <Pair>
     question    <- "?"                                          <IsQuestion>
-    negation    <- "-" word                                     <Excluding>
-    hashtag     <- "#" tag                                      <Including>
-    mention     <- "@" screen_name                              <Including>
-    word        <- [\S]+                                        <Including>
+    exact       <- '"' value:([^\"]*) '"'                       <Exactly>
+    hashtag     <- "#" tag                                      <Text>
+    mention     <- "@" screen_name                              <Text>
+    word        <- [\S]+                                        <Text>
 
     # Utility Rules
 
