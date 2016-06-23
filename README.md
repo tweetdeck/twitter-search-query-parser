@@ -48,7 +48,7 @@ parsed ===
                     [ 'Including', [ 'Text', '@twitterdev' ] ] ] ] ] ] ] ] ] ] ]
 
 const simplified = simplify(parsed, {
-  disallowed: ['Group', 'Or']
+  disallow: ['Group', 'Or']
 });
 
 simplified ===

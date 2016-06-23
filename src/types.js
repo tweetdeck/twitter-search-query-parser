@@ -12,9 +12,9 @@ const types = {
       return types[type].stringify(value);
     },
     simplify(parsed, opts) {
-      const {disallowed = []} = opts;
+      const {disallow = []} = opts;
       const [type] = parsed;
-      if (contains(disallowed, type)) {
+      if (contains(disallow, type)) {
         return ['Text', types.Value.stringify(parsed)];
       }
       if (typeof types[type].simplify === 'function') {

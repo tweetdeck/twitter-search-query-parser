@@ -16,14 +16,14 @@ const testCases = [
   ]
 ];
 
-testCases.forEach(([name, query, disallowed, expected]) => {
+testCases.forEach(([name, query, disallow, expected]) => {
   test(name, t => {
     t.deepEqual(
-      simplify(parse(query), {disallowed}),
+      simplify(parse(query), {disallow}),
       expected
     );
     t.deepEqual(
-      stringify(simplify(parse(query), {disallowed})),
+      stringify(simplify(parse(query), {disallow})),
       query
     );
   });
