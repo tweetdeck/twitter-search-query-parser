@@ -17,7 +17,7 @@ const query = stringify(parsed);
 console.log(query);
 
 const simplified = simplify(parsed, {
-  disallowed: ['Group', 'Or']
+  disallow: ['Group', 'Or']
 });
 console.log(
   util.inspect(
