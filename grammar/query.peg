@@ -50,7 +50,6 @@ grammar Query
     # This is clearly wrong — needs to account for unicode
     tag         <- slug
     slug        <- [a-zA-Z0-9_]+
-    min         <- "min_"
     sep         <- ":"
     integer     <- d d*
     d           <- [0-9]
