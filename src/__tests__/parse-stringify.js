@@ -8,6 +8,11 @@ const testCases = [
     ['And', [['Including', ['Text', 'simple']]]]
   ],
   [
+    'cashtag',
+    '$CASH',
+    ['And', [['Including', ['Text', '$CASH']]]]
+  ],
+  [
     'OR',
     'a OR b',
     [

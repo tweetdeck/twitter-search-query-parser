@@ -41,6 +41,7 @@ grammar Query
     list        <- "list"               sep list_name           <List>
     exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     hashtag     <- "#" tag                                      <Text>
+    cashtag     <- "$" tag                                      <Text>
     mention     <- "@" screen_name                              <Text>
     word        <- [^\s\)\(]+                                   <Text>
 
