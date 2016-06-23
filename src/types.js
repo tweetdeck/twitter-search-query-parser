@@ -1,5 +1,4 @@
 const types = {
-  // General Purpose
   Text: {
     reduce() {
       return [
@@ -44,8 +43,17 @@ const types = {
       return `${k}:${v}`;
     }
   },
-
-  // Operators
+  And: {
+    reduce() {
+      return [
+        'And',
+        types.Values.reduce.call(this)
+      ];
+    },
+    stringify([, values]) {
+      return types.Values.stringify(values);
+    }
+  },
   Or: {
     reduce() {
       return [

@@ -5,7 +5,7 @@ grammar Query
 
     # One or more operators makes up a query
     root        <- __* value:query __*          <Value>
-    query       <- (value:operator __*)+        <Values>
+    query       <- (value:operator __*)+        <And>
     operator    <- or / op
 
     # Operators can be grouped with an OR operator in pairs.
