@@ -5,18 +5,21 @@ const testCases = [
   [
     'single word query',
     'simple',
-    [['Including', ['Text', 'simple']]]
+    ['And', [['Including', ['Text', 'simple']]]]
   ],
   [
     'triple OR',
     'a OR b OR c',
     [
+      'And',
       [
-        'Or',
         [
-          ['Including', ['Text', 'a']],
-          ['Including', ['Text', 'b']],
-          ['Including', ['Text', 'c']]
+          'Or',
+          [
+            ['Including', ['Text', 'a']],
+            ['Including', ['Text', 'b']],
+            ['Including', ['Text', 'c']]
+          ]
         ]
       ]
     ]
@@ -26,26 +29,68 @@ const testCases = [
     `filter:vine exclude:retweets min_replies:100 lang:es to:jack since:2016-01-01
     -filter:vine -exclude:retweets -min_replies:100 -lang:es -to:jack -since:2016-01-01`,
     [
-      ['Including', ['Pair', 'filter', 'vine']],
-      ['Including', ['Pair', 'exclude', 'retweets']],
-      ['Including', ['Pair', 'min_replies', '100']],
-      ['Including', ['Pair', 'lang', 'es']],
-      ['Including', ['Pair', 'to', 'jack']],
-      ['Including', ['Pair', 'since', '2016-01-01']],
-      ['Excluding', ['Pair', 'filter', 'vine']],
-      ['Excluding', ['Pair', 'exclude', 'retweets']],
-      ['Excluding', ['Pair', 'min_replies', '100']],
-      ['Excluding', ['Pair', 'lang', 'es']],
-      ['Excluding', ['Pair', 'to', 'jack']],
-      ['Excluding', ['Pair', 'since', '2016-01-01']]
+      'And',
+      [
+        ['Including', ['Pair', 'filter', 'vine']],
+        ['Including', ['Pair', 'exclude', 'retweets']],
+        ['Including', ['Pair', 'min_replies', '100']],
+        ['Including', ['Pair', 'lang', 'es']],
+        ['Including', ['Pair', 'to', 'jack']],
+        ['Including', ['Pair', 'since', '2016-01-01']],
+        ['Excluding', ['Pair', 'filter', 'vine']],
+        ['Excluding', ['Pair', 'exclude', 'retweets']],
+        ['Excluding', ['Pair', 'min_replies', '100']],
+        ['Excluding', ['Pair', 'lang', 'es']],
+        ['Excluding', ['Pair', 'to', 'jack']],
+        ['Excluding', ['Pair', 'since', '2016-01-01']]
+      ]
     ]
   ],
   [
     'list',
     'list:beep/boop -list:beep/boop',
     [
-      ['Including', ['List', 'beep', 'boop']],
-      ['Excluding', ['List', 'beep', 'boop']]
+      'And',
+      [
+        ['Including', ['List', 'beep', 'boop']],
+        ['Excluding', ['List', 'beep', 'boop']]
+      ]
+    ]
+  ],
+  [
+    'group',
+    `a (b c) -(d e)`,
+    [
+      'And',
+      [
+        ['Including', ['Text', 'a']],
+        [
+          'Including',
+          [
+            'Group',
+            [
+              'And',
+              [
+                ['Including', ['Text', 'b']],
+                ['Including', ['Text', 'c']]
+              ]
+            ]
+          ]
+        ],
+        [
+          'Excluding',
+          [
+            'Group',
+            [
+              'And',
+              [
+                ['Including', ['Text', 'd']],
+                ['Including', ['Text', 'e']]
+              ]
+            ]
+          ]
+        ]
+      ]
     ]
   ],
   [
@@ -56,51 +101,54 @@ const testCases = [
      cats OR dogs OR beavers "exactly this" -"exactly not this"
      fish #fish @fish "fish" -fish -#fish -@fish -"fish"`,
     [
-      ['Including', ['Text', 'search']],
-      ['Including', ['Text', '#search']],
-      ['Including', ['Text', '@search']],
-      ['Excluding', ['Text', 'query']],
-      ['Including', ['Pair', 'filter', 'vine']],
-      ['Including', ['Pair', 'exclude', 'retweets']],
-      ['Including', ['Pair', 'exclude', 'nativeretweets']],
+      'And',
       [
-        'Or',
+        ['Including', ['Text', 'search']],
+        ['Including', ['Text', '#search']],
+        ['Including', ['Text', '@search']],
+        ['Excluding', ['Text', 'query']],
+        ['Including', ['Pair', 'filter', 'vine']],
+        ['Including', ['Pair', 'exclude', 'retweets']],
+        ['Including', ['Pair', 'exclude', 'nativeretweets']],
         [
-          ['Including', ['Pair', 'min_replies', '10']],
-          ['Including', ['Pair', 'min_retweets', '100']]
-        ]
-      ],
-      ['Including', ['Pair', 'min_faves', '20']],
-      [
-        'Or',
+          'Or',
+          [
+            ['Including', ['Pair', 'min_replies', '10']],
+            ['Including', ['Pair', 'min_retweets', '100']]
+          ]
+        ],
+        ['Including', ['Pair', 'min_faves', '20']],
         [
-          ['Including', ['Pair', 'lang', 'es']],
-          ['Including', ['Pair', 'to', 'jack']]
-        ]
-      ],
-      ['IsQuestion', true],
-      ['Including', ['Pair', 'since', '2016-01-01']],
-      ['Including', ['Pair', 'until', '2016-02-01']],
-      ['Including', ['List', 'NASA', 'astronauts-in-space-now']],
-      ['Including', ['Pair', 'filter', 'verified']],
-      [
-        'Or',
+          'Or',
+          [
+            ['Including', ['Pair', 'lang', 'es']],
+            ['Including', ['Pair', 'to', 'jack']]
+          ]
+        ],
+        ['IsQuestion', true],
+        ['Including', ['Pair', 'since', '2016-01-01']],
+        ['Including', ['Pair', 'until', '2016-02-01']],
+        ['Including', ['List', 'NASA', 'astronauts-in-space-now']],
+        ['Including', ['Pair', 'filter', 'verified']],
         [
-          ['Including', ['Text', 'cats']],
-          ['Including', ['Text', 'dogs']],
-          ['Including', ['Text', 'beavers']]
-        ]
-      ],
-      ['Including', ['Exactly', 'exactly this']],
-      ['Excluding', ['Exactly', 'exactly not this']],
-      ['Including', ['Text', 'fish']],
-      ['Including', ['Text', '#fish']],
-      ['Including', ['Text', '@fish']],
-      ['Including', ['Exactly', 'fish']],
-      ['Excluding', ['Text', 'fish']],
-      ['Excluding', ['Text', '#fish']],
-      ['Excluding', ['Text', '@fish']],
-      ['Excluding', ['Exactly', 'fish']]
+          'Or',
+          [
+            ['Including', ['Text', 'cats']],
+            ['Including', ['Text', 'dogs']],
+            ['Including', ['Text', 'beavers']]
+          ]
+        ],
+        ['Including', ['Exactly', 'exactly this']],
+        ['Excluding', ['Exactly', 'exactly not this']],
+        ['Including', ['Text', 'fish']],
+        ['Including', ['Text', '#fish']],
+        ['Including', ['Text', '@fish']],
+        ['Including', ['Exactly', 'fish']],
+        ['Excluding', ['Text', 'fish']],
+        ['Excluding', ['Text', '#fish']],
+        ['Excluding', ['Text', '@fish']],
+        ['Excluding', ['Exactly', 'fish']]
+      ]
     ]
   ]
 ];

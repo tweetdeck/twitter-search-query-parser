@@ -1,5 +1,4 @@
 const types = {
-  // General Purpose
   Text: {
     reduce() {
       return [
@@ -25,11 +24,7 @@ const types = {
       return this.elements.map(elem => types.Value.reduce.call(elem));
     },
     stringify(values) {
-      return values.reduce(
-        (str, value) =>
-          `${str} ${types.Value.stringify(value)}`,
-        ''
-      );
+      return values.map(value => types.Value.stringify(value)).join(' ');
     }
   },
   Pair: {
@@ -44,8 +39,28 @@ const types = {
       return `${k}:${v}`;
     }
   },
-
-  // Operators
+  Group: {
+    reduce() {
+      return [
+        'Group',
+        this.root.reduce()
+      ];
+    },
+    stringify([, v]) {
+      return `(${types.Value.stringify(v)})`;
+    }
+  },
+  And: {
+    reduce() {
+      return [
+        'And',
+        types.Values.reduce.call(this)
+      ];
+    },
+    stringify([, values]) {
+      return types.Values.stringify(values);
+    }
+  },
   Or: {
     reduce() {
       return [

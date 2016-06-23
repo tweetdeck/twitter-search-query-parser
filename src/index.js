@@ -23,5 +23,5 @@ export function parse(query) {
 }
 
 export function stringify(query) {
-  return types.Values.stringify(query).trim();
+  return types.Value.stringify(query).trim();
 }
