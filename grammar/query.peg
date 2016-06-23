@@ -6,34 +6,34 @@ grammar Query
     # One or more operators makes up a query
     root        <- __* value:query __*          <Value>
     query       <- (value:operator __*)+        <And>
-    operator    <- or / op
+
+    operator    <- excluding
+                 / including
+
+    excluding   <- "-" value:base                               <Excluding>
+    including   <- "" value:(or / base)                         <Including>
 
     # Operators can be grouped with an OR operator in pairs.
     # I'm not sure if this is the ideal way to do this with PEG
     # but it works for now.
-    or          <- orable or_groups             <Or>
-    or_groups   <- (or_sep value:orable)+       <Values>
+    or          <- value:orable or_groups                       <Or>
+    or_groups   <- (or_sep value:orable)+                       <Values>
+    orable      <- "" value:base                                <Including>
 
-    # Only some oprators work in an OR
-    orable      <- including
+    base        <- group
+                 / list
+                 / pair
+                 / exact
+                 / hashtag
+                 / mention
+                 / word
 
-    # If it's not an OR you can use any operator
-    op          <- question
-                 / excluding
-                 / including
-
-    excluding   <- "-" value:base                               <Excluding>
-    including   <- "" value:base                                <Including>
-
-    base        <- group / list / pair / exact / hashtag / mention / word
-
-    group       <- "(" root ")"             <Group>
+    group       <- "(" root ")"                                 <Group>
 
     # Query Syntax Rules
 
     pair        <- k:slug               sep v:word              <Pair>
     list        <- "list"               sep list_name           <List>
-    question    <- "?"                                          <IsQuestion>
     exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     hashtag     <- "#" tag                                      <Text>
     mention     <- "@" screen_name                              <Text>

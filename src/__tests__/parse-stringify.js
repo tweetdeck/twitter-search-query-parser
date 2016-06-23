@@ -8,17 +8,39 @@ const testCases = [
     ['And', [['Including', ['Text', 'simple']]]]
   ],
   [
+    'OR',
+    'a OR b',
+    [
+      'And',
+      [
+        [
+          'Including',
+          [
+            'Or',
+            [
+              ['Including', ['Text', 'a']],
+              ['Including', ['Text', 'b']]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
     'triple OR',
     'a OR b OR c',
     [
       'And',
       [
         [
-          'Or',
+          'Including',
           [
-            ['Including', ['Text', 'a']],
-            ['Including', ['Text', 'b']],
-            ['Including', ['Text', 'c']]
+            'Or',
+            [
+              ['Including', ['Text', 'a']],
+              ['Including', ['Text', 'b']],
+              ['Including', ['Text', 'c']]
+            ]
           ]
         ]
       ]
@@ -96,7 +118,7 @@ const testCases = [
   [
     'extreme example',
     `search #search @search -query filter:vine exclude:retweets exclude:nativeretweets
-     min_replies:10 OR min_retweets:100 min_faves:20 lang:es OR to:jack ?
+     min_replies:10 OR min_retweets:100 min_faves:20 lang:es OR to:jack
      since:2016-01-01 until:2016-02-01 list:NASA/astronauts-in-space-now filter:verified
      cats OR dogs OR beavers "exactly this" -"exactly not this"
      fish #fish @fish "fish" -fish -#fish -@fish -"fish"`,
@@ -111,31 +133,39 @@ const testCases = [
         ['Including', ['Pair', 'exclude', 'retweets']],
         ['Including', ['Pair', 'exclude', 'nativeretweets']],
         [
-          'Or',
+          'Including',
           [
-            ['Including', ['Pair', 'min_replies', '10']],
-            ['Including', ['Pair', 'min_retweets', '100']]
+            'Or',
+            [
+              ['Including', ['Pair', 'min_replies', '10']],
+              ['Including', ['Pair', 'min_retweets', '100']]
+            ]
           ]
         ],
         ['Including', ['Pair', 'min_faves', '20']],
         [
-          'Or',
+          'Including',
           [
-            ['Including', ['Pair', 'lang', 'es']],
-            ['Including', ['Pair', 'to', 'jack']]
+            'Or',
+            [
+              ['Including', ['Pair', 'lang', 'es']],
+              ['Including', ['Pair', 'to', 'jack']]
+            ]
           ]
         ],
-        ['IsQuestion', true],
         ['Including', ['Pair', 'since', '2016-01-01']],
         ['Including', ['Pair', 'until', '2016-02-01']],
         ['Including', ['List', 'NASA', 'astronauts-in-space-now']],
         ['Including', ['Pair', 'filter', 'verified']],
         [
-          'Or',
+          'Including',
           [
-            ['Including', ['Text', 'cats']],
-            ['Including', ['Text', 'dogs']],
-            ['Including', ['Text', 'beavers']]
+            'Or',
+            [
+              ['Including', ['Text', 'cats']],
+              ['Including', ['Text', 'dogs']],
+              ['Including', ['Text', 'beavers']]
+            ]
           ]
         ],
         ['Including', ['Exactly', 'exactly this']],

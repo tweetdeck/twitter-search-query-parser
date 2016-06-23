@@ -86,14 +86,14 @@ const types = {
     reduce() {
       return [
         'Or',
-        [this.orable.reduce()].concat(
+        [this.value.reduce()].concat(
           this.or_groups.reduce()
         )
       ];
     },
-    stringify([, orables]) {
-      return orables.map(
-        orable => types.Value.stringify(orable)
+    stringify([, values]) {
+      return values.map(
+        value => types.Value.stringify(value)
       ).join(' OR ');
     },
     simplify([, values], opts) {
