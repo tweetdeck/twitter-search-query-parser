@@ -24,11 +24,7 @@ const types = {
       return this.elements.map(elem => types.Value.reduce.call(elem));
     },
     stringify(values) {
-      return values.reduce(
-        (str, value) =>
-          `${str} ${types.Value.stringify(value)}`,
-        ''
-      );
+      return values.map(value => types.Value.stringify(value)).join(' ');
     }
   },
   Pair: {
@@ -41,6 +37,17 @@ const types = {
     },
     stringify([, k, v]) {
       return `${k}:${v}`;
+    }
+  },
+  Group: {
+    reduce() {
+      return [
+        'Group',
+        this.root.reduce()
+      ];
+    },
+    stringify([, v]) {
+      return `(${types.Value.stringify(v)})`;
     }
   },
   And: {

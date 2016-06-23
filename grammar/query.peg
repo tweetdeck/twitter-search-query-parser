@@ -25,7 +25,9 @@ grammar Query
     excluding   <- "-" value:base                               <Excluding>
     including   <- "" value:base                                <Including>
 
-    base        <- list / pair / exact / hashtag / mention / word
+    base        <- group / list / pair / exact / hashtag / mention / word
+
+    group       <- "(" root ")"             <Group>
 
     # Query Syntax Rules
 
@@ -35,7 +37,7 @@ grammar Query
     exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     hashtag     <- "#" tag                                      <Text>
     mention     <- "@" screen_name                              <Text>
-    word        <- [\S]+                                        <Text>
+    word        <- [^\s\)\(]+                                        <Text>
 
     # Utility Rules
 

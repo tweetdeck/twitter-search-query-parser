@@ -58,6 +58,42 @@ const testCases = [
     ]
   ],
   [
+    'group',
+    `a (b c) -(d e)`,
+    [
+      'And',
+      [
+        ['Including', ['Text', 'a']],
+        [
+          'Including',
+          [
+            'Group',
+            [
+              'And',
+              [
+                ['Including', ['Text', 'b']],
+                ['Including', ['Text', 'c']]
+              ]
+            ]
+          ]
+        ],
+        [
+          'Excluding',
+          [
+            'Group',
+            [
+              'And',
+              [
+                ['Including', ['Text', 'd']],
+                ['Including', ['Text', 'e']]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
     'extreme example',
     `search #search @search -query filter:vine exclude:retweets exclude:nativeretweets
      min_replies:10 OR min_retweets:100 min_faves:20 lang:es OR to:jack ?
