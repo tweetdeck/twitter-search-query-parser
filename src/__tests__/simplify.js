@@ -13,6 +13,17 @@ const testCases = [
         ['Including', ['Text', '(b c)']]
       ]
     ]
+  ],
+  [
+    'no OR',
+    'a OR b',
+    ['Or'],
+    [
+      'And',
+      [
+        ['Including', ['Text', 'a OR b']]
+      ]
+    ]
   ]
 ];
 
