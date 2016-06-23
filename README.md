@@ -7,17 +7,21 @@
 `parse` turns a search query into a data structure:
 
 ```js
-let query = parse('@jack from:twitter');
-// => [['Including', '@jack'], ['Pair', 'from', 'twitter']]
+let parsed = parse('@jack from:twitter');
+parsed === [
+   ['Including', ['Text', '@jack']],
+   ['Including', ['Pair', 'from', 'twitter']
+]
 ```
 
 `stringify` turns a data structure back into a query:
 
 ```js
-let query = stringify(
-  [['Including', '@jack'], ['Pair', 'from', 'twitter']]
-);
-// => '@jack from:twitter'
+let query = stringify([
+   ['Including', ['Text', '@jack']],
+   ['Including', ['Pair', 'from', 'twitter']
+]);
+query === '@jack from:twitter'
 ```
 
 ## Development
