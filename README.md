@@ -28,6 +28,35 @@ stringify([
 ]) === '@jack from:twitter'
 ```
 
+`simplify` squashes the data structure by turning complex types into text. This makes it easier to build an interface for the query, and it stringifies just the same.
+
+```js
+const parsed = parse('@jack OR @twitter -(@support OR @twitterdev)');
+
+parsed ===
+  [ 'And',
+    [ [ 'Including',
+        [ 'Or',
+          [ [ 'Including', [ 'Text', '@jack' ] ],
+            [ 'Including', [ 'Text', '@twitter' ] ] ] ] ],
+      [ 'Excluding',
+        [ 'Group',
+          [ 'And',
+            [ [ 'Including',
+                [ 'Or',
+                  [ [ 'Including', [ 'Text', '@support' ] ],
+                    [ 'Including', [ 'Text', '@twitterdev' ] ] ] ] ] ] ] ] ] ] ]
+
+const simplified = simplify(parsed, {
+  disallowed: ['Group', 'Or']
+});
+
+simplified ===
+  [ 'And',
+    [ [ 'Including', [ 'Text', '@jack OR @twitter' ] ],
+      [ 'Excluding', [ 'Text', '(@support OR @twitterdev)' ] ] ] ]
+```
+
 ## Development
 
 ```

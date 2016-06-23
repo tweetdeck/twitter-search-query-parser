@@ -1,5 +1,5 @@
 import test from 'ava';
-import {parse, simplify} from '..';
+import {parse, simplify, stringify} from '..';
 
 const testCases = [
   [
@@ -21,6 +21,10 @@ testCases.forEach(([name, query, disallowed, expected]) => {
     t.deepEqual(
       simplify(parse(query), {disallowed}),
       expected
+    );
+    t.deepEqual(
+      stringify(simplify(parse(query), {disallowed})),
+      query
     );
   });
 });
