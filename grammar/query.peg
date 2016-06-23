@@ -43,7 +43,7 @@ grammar Query
     hashtag     <- "#" tag                                      <Text>
     cashtag     <- "$" tag                                      <Text>
     mention     <- "@" screen_name                              <Text>
-    word        <- [^\s\)\(]+                                   <Text>
+    word        <- "+"? [^\s\)\(]+                              <Text>
 
     # Utility Rules
 
