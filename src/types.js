@@ -1,4 +1,28 @@
+function contains(arr, v) {
+  return arr.some(w => v === w);
+}
+
 const types = {
+  Value: {
+    reduce() {
+      return this.value.reduce();
+    },
+    stringify(value) {
+      const [type] = value;
+      return types[type].stringify(value);
+    },
+    simplify(parsed, opts) {
+      const {disallowed = []} = opts;
+      const [type] = parsed;
+      if (contains(disallowed, type)) {
+        return ['Text', types.Value.stringify(parsed)];
+      }
+      if (typeof types[type].simplify === 'function') {
+        return [type, types[type].simplify(parsed, opts)];
+      }
+      return parsed;
+    }
+  },
   Text: {
     reduce() {
       return [
@@ -10,21 +34,15 @@ const types = {
       return v;
     }
   },
-  Value: {
-    reduce() {
-      return this.value.reduce();
-    },
-    stringify(value) {
-      const [type] = value;
-      return types[type].stringify(value);
-    }
-  },
   Values: {
     reduce() {
       return this.elements.map(elem => types.Value.reduce.call(elem));
     },
     stringify(values) {
       return values.map(value => types.Value.stringify(value)).join(' ');
+    },
+    simplify(values, opts) {
+      return values.map(value => types.Value.simplify(value, opts));
     }
   },
   Pair: {
@@ -59,6 +77,9 @@ const types = {
     },
     stringify([, values]) {
       return types.Values.stringify(values);
+    },
+    simplify([, values], opts) {
+      return types.Values.simplify(values, opts);
     }
   },
   Or: {
@@ -74,6 +95,9 @@ const types = {
       return orables.map(
         orable => types.Value.stringify(orable)
       ).join(' OR ');
+    },
+    simplify([, values], opts) {
+      return types.Values.simplify(values, opts);
     }
   },
   Exactly: {
@@ -96,6 +120,9 @@ const types = {
     },
     stringify([, v]) {
       return types.Value.stringify(v);
+    },
+    simplify([, v], opts) {
+      return types.Value.simplify(v, opts);
     }
   },
   Excluding: {
@@ -107,6 +134,9 @@ const types = {
     },
     stringify([, v]) {
       return `-${types.Value.stringify(v)}`;
+    },
+    simplify([, v], opts) {
+      return types.Value.simplify(v, opts);
     }
   },
   List: {

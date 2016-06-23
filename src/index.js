@@ -22,6 +22,10 @@ export function parse(query) {
   return reduce(stringToTree(query));
 }
 
-export function stringify(query) {
-  return types.Value.stringify(query).trim();
+export function stringify(parsed) {
+  return types.Value.stringify(parsed);
+}
+
+export function simplify(parsed, opts = {}) {
+  return types.Value.simplify(parsed, opts);
 }

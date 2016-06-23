@@ -1,5 +1,5 @@
 import util from 'util';
-import {parse, stringify} from './src';
+import {parse, stringify, simplify} from './src';
 
 console.log(
   process.argv[2]
@@ -13,3 +13,14 @@ console.log(
 );
 const query = stringify(parsed);
 console.log(query);
+const simplified = simplify(parsed, {
+  disallowed: ['Group', 'Or']
+});
+console.log(
+  util.inspect(
+    simplified,
+    {depth: null, colors: true}
+  )
+);
+const simplifiedQuery = stringify(simplified);
+console.log(simplifiedQuery);
