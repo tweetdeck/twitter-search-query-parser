@@ -15,46 +15,22 @@ grammar Query
     or_groups   <- (or_sep value:orable)+       <Values>
 
     # Only some oprators work in an OR
-    orable      <- filter
-                 / reply
-                 / engagement
-                 / lang
-                 / including
+    orable      <- including
 
     # If it's not an OR you can use any operator
-    op          <- filter
-                 / reply
-                 / since
-                 / until
-                 / list
-                 / engagement
-                 / lang
-                 / exclude
-                 / question
+    op          <- question
                  / excluding
                  / including
-
-    engagement  <- min_rts
-                 / min_faves
-                 / min_replies
 
     excluding   <- "-" value:base                               <Excluding>
     including   <- "" value:base                                <Including>
 
-    base        <- exact / hashtag / mention / word
+    base        <- list / pair / exact / hashtag / mention / word
 
     # Query Syntax Rules
 
-    filter      <- k:"filter"           sep v:word              <Pair>
-    reply       <- k:"to" sep "@"?          v:screen_name       <Pair>
-    since       <- k:"since"            sep v:date              <Pair>
-    until       <- k:"until"            sep v:date              <Pair>
+    pair        <- k:slug               sep v:word              <Pair>
     list        <- "list"               sep list_name           <List>
-    min_rts     <- k:(min "retweets")   sep v:integer           <Pair>
-    min_faves   <- k:(min "faves")      sep v:integer           <Pair>
-    min_replies <- k:(min "replies")    sep v:integer           <Pair>
-    lang        <- k:"lang"             sep v:word              <Pair>
-    exclude     <- k:"exclude"          sep v:word              <Pair>
     question    <- "?"                                          <IsQuestion>
     exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     hashtag     <- "#" tag                                      <Text>
@@ -66,11 +42,12 @@ grammar Query
     or_sep      <- __+ "OR" __+
     list_name   <- screen_name "/" list_slug
     list_slug   <- [a-z-]+
-    screen_name <- [a-zA-z0-9_]+
+    screen_name <- slug
     # There's probably a better way to do this
     date        <- d d d d "-" d d "-" d d
     # This is clearly wrong — needs to account for unicode
-    tag         <- [a-zA-z0-9_]+
+    tag         <- slug
+    slug        <- [a-zA-Z0-9_]+
     min         <- "min_"
     sep         <- ":"
     integer     <- d d*
