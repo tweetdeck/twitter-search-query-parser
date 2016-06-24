@@ -62,45 +62,123 @@ simplified ===
 
 The parsed data stucture follows the format: `[Type, ...values]`. The nature of the `values` depends on the `Type`.
 
-### `And`
-
-Represents a conjunction of other terms, and is the root of the query and grouped sub-queries.
-
-Contains an Array value of other terms.
-
-Example: `['And', [ [ ... ], [ ... ], ..., [ ... ] ]]`
-
-### `Or`
-
-Represents a disjunction of other terms.
-
-Contains an Array value of other terms.
-
-Example: `['Or', [ [ ... ], [ ... ], ..., [ ... ] ]]`
-
-### `Including`
-
-Represents the *inclusion* of the contained term.
-
-Contains a single value, another terms.
-
-Example: `['Including', ['Text', 'x']]`
-
-### `Excluding`
-
-Represents the *exclusion* of the contained term.
-
-Contains a single value, another terms.
-
-Example: `['Excluding', ['Text', 'x']]`
-
 ### `Text`
 
-Represents a text value, including hashtags, mentions and cashtags.
+Represents a text value, including hashtags, mentions and cashtags. For example:
+
+```
+#x
+```
 
 Contains a single string value.
 
-Example: `['Text', x]`
+```
+['Text', 'x']
+```
+
+### `Exactly`
+
+Represents an exact text match, in quotes.
+
+```
+a "b c"
+```
+
+Contains one string value.
+
+```
+['Exactly', 'b c']
+```
+
+### `And`
+
+Represents a conjunction of other terms, and is the root of the query and grouped sub-queries. For example:
+
+```
+x #y
+```
+
+Contains an Array value of other terms.
+
+```
+['And', [[ ... ], [ ... ], ..., [ ... ]]]
+```
+
+### `Or`
+
+Represents a disjunction of other terms. For example:
+
+```
+x OR #y
+```
+
+Contains an Array value of other terms.
+
+```
+['Or', [[ ... ], [ ... ], ..., [ ... ]]]
+```
+
+### `Including`
+
+Represents the *inclusion* of the contained term. Every term is either included or excluded.
+
+Contains a single value, another term.
+
+```
+['Including', ['Text', 'x']]
+```
+
+### `Excluding`
+
+Represents the *exclusion* of the contained term. Every term is either included or excluded.
+
+Contains a single value, another term.
+
+```
+['Excluding', ['Text', 'x']]
+```
+
+### `Group`
+
+Represents a group of terms. For example:
+
+```
+(a b) OR (c d)
+```
+
+Contains a single value, another term.
+
+```
+['Group', [ ... ]]
+```
+
+### `Pair`
+
+Represents a search facet operator. For example:
+
+```
+filter:vine exclude:retweets
+```
+
+Contains two string values: they key and the value.
+
+```
+['Pair', 'filter', 'vine']
+```
+
+### `List`
+
+Represents a list facet operator.
+
+```
+list:NASA/astronauts-in-space-now
+```
+
+Contains two values: user name and list slug.
+
+```
+['List', 'NASA', 'astronauts-in-space-now']
+```
 
 ## Development
 
