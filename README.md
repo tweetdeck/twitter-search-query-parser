@@ -58,6 +58,52 @@ simplified ===
       [ 'Excluding', [ 'Text', '(@support OR @twitterdev)' ] ] ] ]
 ```
 
+## Terms
+
+The parsed data stucture follows the format: `[Type, ...values]`. The nature of the `values` depends on the `Type` – see `types.js`.
+
+Here are all the types of term:
+
+### `And`
+
+Represents a conjunction of other terms, and is the root of the query and grouped sub-queries.
+
+Contains an Array value of other terms.
+
+Example: `['And', [ [ ... ], [ ... ], ..., [ ... ] ]]`
+
+### `Or`
+
+Represents a disjunction of other terms.
+
+Contains an Array value of other terms.
+
+Example: `['Or', [ [ ... ], [ ... ], ..., [ ... ] ]]`
+
+### `Including`
+
+Represents the *inclusion* of the contained term.
+
+Contains a single value, another terms.
+
+Example: `['Including', ['Text', 'x']]`
+
+### `Excluding`
+
+Represents the *exclusion* of the contained term.
+
+Contains a single value, another terms.
+
+Example: `['Excluding', ['Text', 'x']]`
+
+### `Text`
+
+Represents a text value, including hashtags, mentions and cashtags.
+
+Contains a single string value.
+
+Example: `['Text', x]`
+
 ## Development
 
 ```
