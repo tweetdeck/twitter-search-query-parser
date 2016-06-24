@@ -150,17 +150,6 @@ const types = {
     stringify([, screenName, slug]) {
       return `list:${screenName}/${slug}`;
     }
-  },
-  IsQuestion: {
-    reduce() {
-      return [
-        'IsQuestion',
-        true
-      ];
-    },
-    stringify() {
-      return '?';
-    }
   }
 };
 
