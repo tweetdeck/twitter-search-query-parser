@@ -60,9 +60,7 @@ simplified ===
 
 ## Terms
 
-The parsed data stucture follows the format: `[Type, ...values]`. The nature of the `values` depends on the `Type` – see `types.js`.
-
-Here are all the types of term:
+The parsed data stucture follows the format: `[Type, ...values]`. The nature of the `values` depends on the `Type`.
 
 ### `And`
 
