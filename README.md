@@ -81,7 +81,7 @@ Contains a single string value.
 Represents an exact text match, in quotes.
 
 ```
-a "b c"
+"b c"
 ```
 
 Contains one string value.
@@ -101,7 +101,7 @@ x #y
 Contains an Array value of other terms.
 
 ```
-['And', [[ ... ], [ ... ], ..., [ ... ]]]
+['And', [ ... ]]
 ```
 
 ### `Or`
@@ -115,7 +115,7 @@ x OR #y
 Contains an Array value of other terms.
 
 ```
-['Or', [[ ... ], [ ... ], ..., [ ... ]]]
+['Or', [ ... ]]
 ```
 
 ### `Including`
