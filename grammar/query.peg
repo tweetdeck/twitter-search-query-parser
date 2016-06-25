@@ -42,7 +42,7 @@ grammar Query
     exact       <- '"' value:([^\"]*) '"'                       <Exactly>
     hashtag     <- "#" tag                                      <Text>
     cashtag     <- "$" tag                                      <Text>
-    mention     <- "@" screen_name                              <Text>
+    mention     <- "" screen_name                               <Text>
     word        <- "+"? [^\s\)\(]+                              <Text>
 
     # Utility Rules
@@ -50,7 +50,7 @@ grammar Query
     or_sep      <- __+ "OR" __+
     list_name   <- screen_name "/" list_slug
     list_slug   <- [a-z-]+
-    screen_name <- slug
+    screen_name <- "@"? slug
     # There's probably a better way to do this
     date        <- d d d d "-" d d "-" d d
     # This is clearly wrong — needs to account for unicode

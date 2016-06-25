@@ -22,7 +22,7 @@ const testCases = [
   ],
   [
     'list',
-    'list:beep/boop -list:beep/boop'
+    'list:beep/boop -list:beep/boop list:@beep/boop -list:@beep/boop'
   ],
   [
     'group',
