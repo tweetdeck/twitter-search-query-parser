@@ -14,7 +14,8 @@
     "lint:fix": "npm run lint -- --fix",
     "specs": "ava src/__tests__/**/*.js",
     "try": "babel-node try.js",
-    "test": "npm run gen && npm run lint && npm run specs"
+    "test": "npm run gen && npm run lint && npm run specs",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "keywords": [],
   "author": "Tom Ashworth <ta@twitter.com>",
@@ -26,7 +27,8 @@
     "babel-preset-stage-1": "^6.5.0",
     "canopy": "^0.3.0",
     "ghooks": "^1.2.4",
-    "xo": "^0.16.0"
+    "xo": "^0.16.0",
+    "semantic-release": "^4.3.5"
   },
   "config": {
     "ghooks": {
