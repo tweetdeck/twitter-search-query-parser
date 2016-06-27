@@ -12,6 +12,7 @@
     "gen": "canopy grammar/query.peg --lang js",
     "lint": "xo",
     "lint:fix": "npm run lint -- --fix",
+    "prepublish": "npm run dist",
     "specs": "ava src/__tests__/**/*.js",
     "try": "babel-node try.js",
     "test": "npm run gen && npm run lint && npm run specs",
