@@ -190,6 +190,8 @@ $ npm run gen
 $ npm run try "some -search from:twitter @jack #tagged OR \"exactly this\""
 ```
 
+Commit messages should follow the [Angular commit message guidelines](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit).
+
 ### Release
 
 This repository uses [semantic-release](https://github.com/semantic-release/semantic-release). Changes will automatically be released to npm.
