@@ -182,6 +182,10 @@ Contains two values: user name and list slug.
 ['List', 'NASA', 'astronauts-in-space-now']
 ```
 
+## Known bugs
+
+- This library has only been tested in English and likely has insufficient query parsing cababilities in other alphabets
+
 ## Development
 
 ```
