@@ -25,6 +25,7 @@ grammar Query
     # Filters, hashtags, text etc.
     base        <- group
                  / list
+                 / url
                  / pair
                  / exact
                  / hashtag
@@ -37,6 +38,7 @@ grammar Query
     # Query Syntax Rules
     # These outline the specifics of the syntax
 
+    url         <- k:slug               url_sep v:word          <Text>
     pair        <- k:slug               sep v:word              <Pair>
     list        <- "list"               sep list_name           <List>
     exact       <- '"' value:([^\"]*) '"'                       <Exactly>
@@ -56,6 +58,7 @@ grammar Query
     # This is clearly wrong — needs to account for unicode
     tag         <- slug
     slug        <- [a-zA-Z0-9_]+
+    url_sep     <- "://"
     sep         <- ":"
     integer     <- d d*
     d           <- [0-9]

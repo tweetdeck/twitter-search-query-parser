@@ -13,6 +13,11 @@ const testCases = [
     ['And', [['Including', ['Text', '$CASH']]]]
   ],
   [
+    'url',
+    'http://a.b',
+    ['And', [['Including', ['Text', 'http://a.b']]]]
+  ],
+  [
     'forced',
     '+a +b OR c',
     ['And',
