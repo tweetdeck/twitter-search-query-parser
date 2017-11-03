@@ -13,9 +13,11 @@ const testCases = [
     ['And', [['Including', ['Text', '$CASH']]]]
   ],
   [
-    'url',
-    'http://a.b',
-    ['And', [['Including', ['Text', 'http://a.b']]]]
+    'urls',
+    'http://a.b https://twitter.com/beep/boop/123456?xyz=1',
+    ['And',
+      [['Including', ['Text', 'http://a.b']],
+       ['Including', ['Text', 'https://twitter.com/beep/boop/123456?xyz=1']]]]
   ],
   [
     'forced',
